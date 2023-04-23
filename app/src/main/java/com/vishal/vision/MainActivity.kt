@@ -2,6 +2,7 @@ package com.vishal.vision
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -26,29 +27,36 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        binding= DataBindingUtil.setContentView(this,R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        var imageBitmap: Bitmap? = null
+        val imageUriString = intent.getStringExtra("imageUri")
+
+        if (!imageUriString.isNullOrEmpty()) {
+            val imageUri = Uri.parse(imageUriString)
+            imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+        } else {
+            imageBitmap = intent.getParcelableExtra("imageBitmap")
+        }
+
+        if (imageBitmap != null) {
+            binding.imageView.setImageBitmap(imageBitmap)
+            this.imageBitmap = imageBitmap
+        }
 
         binding.apply {
-
             captureImage.setOnClickListener {
-
                 takeImage()
-
                 textView.text = ""
-
-
             }
 
             detectTextImageBtn.setOnClickListener {
-
                 processImage()
-
             }
-
         }
-
-        
     }
+
+
 
 
     private fun takeImage(){
