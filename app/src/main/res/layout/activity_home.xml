@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -14,35 +20,36 @@
         android:src="@drawable/vision_logo" />
 
     <TextView
+        android:textColor="#AA2F78"
+        android:id="@+id/text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to vision.ai"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:id="@+id/text_view"
         android:layout_alignTop="@+id/logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:text="Welcome to Vision.ai"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/camera_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Camera"
         android:layout_alignBottom="@+id/logo"
-        android:layout_marginTop="20dp"
         android:layout_centerInParent="true"
-        android:layout_marginLeft="20dp"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Camera" />
 
     <Button
         android:id="@+id/image_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Image"
-        android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
         android:layout_below="@id/camera_button"
+        android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="20dp"
+        android:text="Image" />
 
 </RelativeLayout>
+</ScrollView>
