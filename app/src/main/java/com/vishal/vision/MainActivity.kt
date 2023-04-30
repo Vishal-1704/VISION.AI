@@ -1,5 +1,8 @@
 package com.vishal.vision
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -19,9 +22,9 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
 
-    private val REQUEST_IMAGE_CAPTURE=1
+    private val REQUEST_IMAGE_CAPTURE = 1
 
-    private var imageBitmap: Bitmap? =null
+    private var imageBitmap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,23 +56,23 @@ class MainActivity : AppCompatActivity() {
             detectTextImageBtn.setOnClickListener {
                 processImage()
             }
+
+            copyTextBtn.setOnClickListener {
+                copyText()
+            }
         }
     }
 
 
+    private fun takeImage() {
 
-
-    private fun takeImage(){
-
-        val intent= Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         try {
 
-            startActivityForResult(intent,REQUEST_IMAGE_CAPTURE)
+            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
 
-        }
-        catch (e:Exception){
-
+        } catch (e: Exception) {
 
 
         }
@@ -80,18 +83,17 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode==REQUEST_IMAGE_CAPTURE && resultCode== RESULT_OK){
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
             val extras: Bundle? = data?.extras
 
-            imageBitmap= extras?.get("data") as Bitmap
+            imageBitmap = extras?.get("data") as Bitmap
 
-            if (imageBitmap!=null) {
+            if (imageBitmap != null) {
 
                 binding.imageView.setImageBitmap(imageBitmap)
 
             }
-
 
 
         }
@@ -100,11 +102,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private fun processImage() {
 
-
-    private fun processImage(){
-
-        if (imageBitmap!=null) {
+        if (imageBitmap != null) {
 
             val image = imageBitmap?.let {
 
@@ -124,9 +124,7 @@ class MainActivity : AppCompatActivity() {
                     }
             }
 
-        }
-
-        else{
+        } else {
 
             Toast.makeText(this, "Please select photo", Toast.LENGTH_SHORT).show()
 
@@ -135,6 +133,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
+    private fun copyText() {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("Vision Text", binding.textView.text)
+        clipboard.setPrimaryClip(clip)
+        Toast.makeText(this, "Text copied to clipboard", Toast.LENGTH_SHORT).show()
+    }
 
 }
